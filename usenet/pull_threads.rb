@@ -15,17 +15,13 @@ class PullThreads
       path = "raw/#{list}/#{id}.html"
 
       html = nil
-      if Pathname.new(path).exist?
-        File.open(path) do |f|
-          html = f.read
-        end
-      else
-        html = Phantomjs.run("./pull_site.js", thread)
-        File.open(path, 'w') do |f|
-          f.write html
-        end
+      unless Pathname.new(path).exist?
+        puts Phantomjs.run("./pull_site.js", thread, path)
       end
-      html
+      File.open(path) do |f|
+        @html = f.read
+      end
+      @html
     end
   end
 end
