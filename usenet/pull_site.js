@@ -6,5 +6,5 @@ page.open(args[1], function () {
     setTimeout(function() {
     	fs.write(args[2], page.content, 'w');
     	phantom.exit();
-    }, 5000);
+    }, 15000);
 });
