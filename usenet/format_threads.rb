@@ -25,12 +25,14 @@ output_count = 0
 @raw_threads.each do |thread|
 	thread_doc = Nokogiri::HTML(thread.html)
 	begin
-		posts = thread_doc.css('.GFLL15SCEB').map do |post|
-			summary = {}
-			summary[:author] = post.css('._username').text
-			summary[:date] = post.css('.GFLL15SABC')[0]["title"]
-			summary[:corbitt] = summary[:author] == "Don Corbitt" ? true : false
-			summary[:content] = post.css('.GFLL15SJDB')
+		posts = thread_doc.css('.GIURNSTDHEB').map do |post|
+			summary = {
+				author: post.css('._username').text,
+				date: post.css('.GIURNSTDBEB')[0]["title"],
+				corbitt: false,
+				content: post.css('.GFLL15SJDB')
+			}
+			summary[:corbitt] = true if summary[:author] == "Don Corbitt"
 			summary
 		end
 		stats = thread_doc.css('.GFLL15SNXB').text.scan /\d+/
@@ -41,7 +43,6 @@ output_count = 0
 			title: thread_doc.css('title').text[0..-17],
 			date: posts.empty? ? nil : posts.first[:date],
 			num_posts: posts.count,
-			num_authors: Integer(stats.last),
 			num_corbitt: posts.select{|p| p[:corbitt]}.count,
 			posts: posts
 		}
@@ -50,6 +51,7 @@ output_count = 0
 			output.puts hash.to_json
 			output_count += 1
 		end 
+		puts hash if testing
 	rescue
 		puts "Bad thread"
 	end

@@ -9,7 +9,7 @@ class PullThreads
   def self.pull thread_list
     total = thread_list.size
     thread_list.each_with_index.map do |thread, index|
-      # puts "Downloading thread #{thread} (#{index+1}/#{total})"
+      puts "Downloading thread #{thread} (#{index+1}/#{total})"
       list = thread.split('/')[-3]
       id = thread.split('/')[-2..-1].join("-")
 
@@ -28,5 +28,3 @@ class PullThreads
     end
   end
 end
-
-PullThreads.pull ThreadList::Threads
