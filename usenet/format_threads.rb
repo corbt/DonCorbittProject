@@ -30,12 +30,12 @@ output_count = 0
 				author: post.css('._username').text,
 				date: post.css('.GIURNSTDBEB')[0]["title"],
 				corbitt: false,
-				content: post.css('.GFLL15SJDB')
+				content: post.css('.GIURNSTDAEB')
 			}
 			summary[:corbitt] = true if summary[:author] == "Don Corbitt"
 			summary
 		end
-		stats = thread_doc.css('.GFLL15SNXB').text.scan /\d+/
+
 		hash = {
 			url: thread.url,
 			list: thread.list,
@@ -50,7 +50,7 @@ output_count = 0
 		if hash[:num_corbitt] > 0
 			output.puts hash.to_json
 			output_count += 1
-		end 
+		end
 		puts hash if testing
 	rescue
 		puts "Bad thread"
